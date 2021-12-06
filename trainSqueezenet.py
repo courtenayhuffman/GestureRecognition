@@ -43,20 +43,28 @@ def label_mapper(val):
     return CATEGORY_MAP[val]
 
 # DATASET PROCESSING
-input_data = []
+# need to create training and testing datasets
+#input_data = []
+X = [] #images
+Y = [] # labels
 for sub_folder_name in os.listdir(training_img):
     path = os.path.join(training_img, sub_folder_name)
     for fileName in os.listdir(path):
         if fileName.endswith(".jpg"):
             img = cv.imread(os.path.join(path, fileName))
-            img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+            img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) # we dont need to change colours for this dataset I think
             img = cv.resize(img, (225, 225))
             #'input_data' stores the input image array and its corresponding label or category name
-            input_data.append([img, sub_folder_name])
-
-img_data, labels = zip(*input_data)
-labels = list(map(label_mapper, labels))
-labels = np_utils.to_categorical(labels)
+            #input_data.append([img, sub_folder_name])
+            X.append(img)
+            Y.append(label_mapper(sub_folder_name))
+xlen = len(X)
+X = np.array(X, dtype="uint8")
+X = X.reshape(len(xlen), 120, 320, 1) # Needed to reshape so CNN knows it's different images
+Y = np.array(Y)
+#img_data, labels = zip(*input_data)
+#labels = list(map(label_mapper, labels))
+#labels = np_utils.to_categorical(labels)
 
 # NEURAL NETWORK
 model = def_model_param()
@@ -65,7 +73,7 @@ model.compile(
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
-model.fit(np.array(img_data), np.array(labels), epochs=15)
+model.fit(np.array(X), np.array(Y), epochs=15)
 model.save("gesture-model.h5")
 
 
