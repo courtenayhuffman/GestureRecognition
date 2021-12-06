@@ -10,6 +10,7 @@ from keras.models import Sequential
 import tensorflow as tf
 from sklearn import model_selection
 from sklearn.metrics import confusion_matrix
+from matplotlib.pyplot import plot as mplplot
 
 CATEGORY_MAP = {
     "call_me": 0,
@@ -98,5 +99,7 @@ def train_model():
                                         "Actual up"])
     print(cm.head())
     print(cm.tail())
+    cm.plot()
+    mplplot.show()
 
 train_model()
