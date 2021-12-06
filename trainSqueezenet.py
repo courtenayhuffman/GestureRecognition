@@ -7,6 +7,7 @@ from keras.utils import np_utils
 from keras.layers import Activation, Dropout, Convolution2D, GlobalAveragePooling2D
 from keras.models import Sequential
 import tensorflow as tf
+from sklearn import model_selection
 
 def def_model_param():
     CATEGORIES = len(CATEGORY_MAP)
@@ -66,6 +67,9 @@ Y = np.array(Y)
 #labels = list(map(label_mapper, labels))
 #labels = np_utils.to_categorical(labels)
 
+# CREATE TRAINING AND VALIDATION SETS
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X, Y, test_size=.33, random_state=42)
+
 # NEURAL NETWORK
 model = def_model_param()
 model.compile(
@@ -73,7 +77,7 @@ model.compile(
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
-model.fit(np.array(X), np.array(Y), epochs=15)
+model.fit(X_train, y_train, epochs=15)
 model.save("gesture-model.h5")
 
 
