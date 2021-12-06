@@ -79,6 +79,7 @@ def train_model():
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
+    print(model.summary())
     model.fit(X_train, y_train, epochs=15) #batch_size=64, validation_data=(X_test, y_test)) 
     model.save("gesture-model.h5")
 
