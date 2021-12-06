@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import cv2 as cv
 import os
 from keras_squeezenet import SqueezeNet
@@ -8,6 +9,7 @@ from keras.layers import Activation, Dropout, Convolution2D, GlobalAveragePoolin
 from keras.models import Sequential
 import tensorflow as tf
 from sklearn import model_selection
+from sklearn.metrics import confusion_matrix
 
 def def_model_param():
     CATEGORIES = len(CATEGORY_MAP)
@@ -77,7 +79,20 @@ model.compile(
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
-model.fit(X_train, y_train, epochs=15)
+model.fit(X_train, y_train, epochs=15) #batch_size=64, validation_data=(X_test, y_test)) 
 model.save("gesture-model.h5")
 
+test_loss, test_acc = model.evaluate(X_test, y_test)
+print('Test accuracy: {:2.2f}%'.format(test_acc*100))
 
+predictions = model.predict(X_test) # Make predictions towards the test set
+y_pred = np.argmax(predictions, axis=1) # Transform predictions into 1-D array with label number
+
+cm = pd.DataFrame(confusion_matrix(y_test, y_pred), 
+             columns=["Predicted call_me", "Predicted fingers_crossed", "Predicted okay", "Predicted paper", 
+                    "Predicted peace", "Predicted rock", "Predicted rock_on", "Predicted scissor", "Predicted thumbs", 
+                    "Predicted up"],
+             index=["Actual call_me", "Actual fingers_crossed", "Actual okay", "Actual paper", "Actual peace", 
+                    "Actual rock", "Actual rock_on", "Actual scissor", "Actual thumbs", "Actual up"])
+print(cm.head())
+print(cm.tail())
