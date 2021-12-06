@@ -26,6 +26,8 @@ def get_webcam():
         raise IOError("Cannot open webcam")
     while(True):
         ret, frame = cap.read() # frame captured stored in frame var
+        # pass frame to ML model
+        # get prediction result, print to screen
         cv.imshow('Input', frame)
         c = cv.waitKey(1)
         if c == 27: # escape key to exit

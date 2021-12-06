@@ -1,9 +1,12 @@
 import numpy as np
 import pandas as pd
 import cv2 as cv
+#import opencv as cv1
 import os
-from keras_squeezenet import SqueezeNet
+#from keras_applications.imagenet_utils import _obtain_input_shape
+#from keras_squeezenet import SqueezeNet
 from keras.optimizers import Adam
+import keras.optimizers as opt
 from keras.utils import np_utils
 from keras.layers import Activation, Dropout, Convolution2D, GlobalAveragePooling2D
 from keras.models import Sequential
@@ -11,6 +14,7 @@ import tensorflow as tf
 from sklearn import model_selection
 from sklearn.metrics import confusion_matrix
 from matplotlib.pyplot import plot as mplplot
+import keras_applications
 
 CATEGORY_MAP = {
     "call_me": 0,
@@ -32,8 +36,13 @@ def label_mapper(val):
 
 def def_model_param():
     CATEGORIES = len(CATEGORY_MAP)
-    base_model = Sequential()
-    base_model.add(SqueezeNet(input_shape=(225, 225, 3), include_top=False))
+    #base_model = Sequential()
+    #base_model = SqueezeNet()
+    
+    base_model = tf.keras.applications.MobileNetV2(input_shape = (224, 224, 3), include_top = False, weights = "imagenet")
+    base_model.add(GlobalAveragePooling2D())
+    base_model.trainable = False
+    #base_model.add(SqueezeNet(input_shape=(225, 225, 3), include_top=False))
     base_model.add(Dropout(0.5))
     base_model.add(Convolution2D(CATEGORIES, (1, 1), padding='valid'))
     base_model.add(Activation('relu'))
@@ -64,7 +73,7 @@ def train_model():
                 Y.append(label_mapper(sub_folder_name))
     xlen = len(X)
     X = np.array(X, dtype="uint8")
-    X = X.reshape(len(xlen), 120, 320, 1) # Needed to reshape so CNN knows it's different images
+    #X = X.reshape(xlen, 120, 320, 1) # Needed to reshape so CNN knows it's different images
     Y = np.array(Y)
     #img_data, labels = zip(*input_data)
     #labels = list(map(label_mapper, labels))
@@ -76,7 +85,7 @@ def train_model():
     # NEURAL NETWORK
     model = def_model_param()
     model.compile(
-        optimizer=Adam(lr=0.0001),
+        optimizer='adam',
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
