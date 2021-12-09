@@ -5,7 +5,7 @@ import cv2 as cv
 import os
 #from keras_applications.imagenet_utils import _obtain_input_shape
 #from keras_squeezenet import SqueezeNet
-from keras.optimizers import Adam
+#from keras.optimizers import Adam
 import keras.optimizers as opt
 from keras.utils import np_utils
 from keras.layers import Activation, Dropout, Convolution2D, GlobalAveragePooling2D
@@ -14,7 +14,7 @@ import tensorflow as tf
 from sklearn import model_selection
 from sklearn.metrics import confusion_matrix
 from matplotlib.pyplot import plot as mplplot
-import keras_applications
+#import keras_applications
 
 CATEGORY_MAP = {
     "call_me": 0,
@@ -40,16 +40,16 @@ def def_model_param():
     #base_model = SqueezeNet()
     
     base_model = tf.keras.applications.MobileNetV2(input_shape = (224, 224, 3), include_top = False, weights = "imagenet")
-    base_model.add(GlobalAveragePooling2D())
-    base_model.trainable = False
+    #base_model.add(GlobalAveragePooling2D())
+    #base_model.trainable = False
     #base_model.add(SqueezeNet(input_shape=(225, 225, 3), include_top=False))
-    base_model.add(Dropout(0.5))
-    base_model.add(Convolution2D(CATEGORIES, (1, 1), padding='valid'))
-    base_model.add(Activation('relu'))
-    base_model.add(GlobalAveragePooling2D())
-    base_model.add(Activation('softmax'))
+    #base_model.add(Dropout(0.5))
+    #base_model.add(Convolution2D(CATEGORIES, (1, 1), padding='valid'))
+    #base_model.add(Activation('relu'))
+    #base_model.add(GlobalAveragePooling2D())
+    #base_model.add(Activation('softmax'))
     base_model.compile(
-        optimizer=Adam(lr=0.0001),
+        optimizer='adam',#Adam(lr=0.0001),
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
