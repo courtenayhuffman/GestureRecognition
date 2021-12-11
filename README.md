@@ -1,4 +1,4 @@
-# GestureRecoqnition
+# GestureRecognition
 
 This program began as a COGS 300 term project during Fall 2021. The purpose of this program is to use Machine Learning to detect and label 10 different hand gestures from a user's webcam.
 This program may be updated to fix compatibility issues and extend functionality of the program. 
