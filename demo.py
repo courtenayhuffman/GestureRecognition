@@ -26,8 +26,7 @@ def get_webcam():
         raise IOError("Cannot open webcam")
     while(True):
         ret, frame = cap.read() # frame captured stored in frame var
-        # pass frame to ML model
-        # get prediction result, print to screen
+        predict_gesture(frame)
         cv.imshow('Input', frame)
         c = cv.waitKey(1)
         if c == 27: # escape key to exit
@@ -45,10 +44,13 @@ def predict_gesture(frame):
     gesture_numeric = np.argmax(prediction[0]) #what is this even doing
     gesture_name = label_mapper(gesture_numeric) 
     print("Predicted Gesture: {}".format(gesture_name))
+    return
+
+get_webcam()
 
 # maybe??
-def detect_objects(img, net, outputLayers): # image, model, output layers
-	blob = cv.dnn.blobFromImage(img, scalefactor=0.00392, size=(320, 320), mean=(0, 0, 0), swapRB=True, crop=False)
-	net.setInput(blob)
-	outputs = net.forward(outputLayers)
-	return blob, outputs
+# def detect_objects(img, net, outputLayers): # image, model, output layers
+# 	blob = cv.dnn.blobFromImage(img, scalefactor=0.00392, size=(320, 320), mean=(0, 0, 0), swapRB=True, crop=False)
+# 	net.setInput(blob)
+# 	outputs = net.forward(outputLayers)
+# 	return blob, outputs
