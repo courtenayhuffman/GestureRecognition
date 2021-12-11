@@ -39,7 +39,8 @@ def def_model_param():
     #base_model = Sequential()
     #base_model = SqueezeNet()
     
-    base_model = tf.keras.applications.MobileNetV2(input_shape = (224, 224, 3), include_top = False, weights = "imagenet")
+    #base_model = tf.keras.applications.MobileNetV2(input_shape = (224, 224, 3), include_top = False, weights = "imagenet")
+    base_model = tf.keras.applications.MobileNetV2(input_shape = (225, 225), include_top = False, weights = "imagenet")
     #base_model.add(GlobalAveragePooling2D())
     #base_model.trainable = False
     #base_model.add(SqueezeNet(input_shape=(225, 225, 3), include_top=False))
@@ -83,7 +84,8 @@ def train_model():
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X, Y, test_size=.33, random_state=42)
 
     # NEURAL NETWORK
-    model = def_model_param()
+    #model = def_model_param()
+    model = tf.keras.applications.MobileNetV2(include_top = False, weights = "imagenet")
     model.compile(
         optimizer='adam',
         loss='categorical_crossentropy',
