@@ -1,5 +1,8 @@
 # GestureRecoqnition
 
+This program began as a COGS 300 term project during Fall 2021. The purpose of this program is to use Machine Learning to detect and label 10 different hand gestures from a user's webcam.
+This program may be updated to fix compatibility issues and extend functionality of the program. 
+
 To use program, follow this set of instructions:
 
 ***PRE-REQUISITES: must have Python3, pip and the Anaconda package manager installed***
@@ -13,11 +16,10 @@ To use program, follow this set of instructions:
 ```$ conda activate tfges```
 
 4. Install required packages: \
-    WARNING: requirements.txt has not been done yet - may need to manually pip install everything \
 ```$ pip install -r requirements.txt ```
 
     ***Note: This hasn't been tested yet. You may have to manually install all packages*** \
-    a. If needed, use the Anaconda package manager GUI to install packages. Installing tensorflow may require: \
+    a. If needed, use the Anaconda package manager GUI to install packages. Installing tensorflow may require the following to be executed within the anaconda command promt: \
     ```$ conda install -c conda-forge tensorflow```
 
     b. You may then need to run the following for each of the packages present in the requirements.txt file if you receive messages that a package can't be found when trying to run the program: \
